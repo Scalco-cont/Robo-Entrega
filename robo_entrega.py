@@ -21,7 +21,7 @@ PASTA_DESTINO = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificad
 PASTA_ENVIADOS = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/TemporarioAutomatico/Enviados")
 PASTA_ERRO_ENVIO = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/TemporarioAutomatico")
 PASTA_REJEITADOS = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/ArquivosAutomaticos")
-PASTA_ICMS = Path("/sv-scalco/Trabalho/Contabilidade/P r o t o c o l o")
+PASTA_ICMS = Path("/sv-scalco/Protocolo")
 LOG_DIR = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/logs")
 LOG_DIR.mkdir(exist_ok=True)
 

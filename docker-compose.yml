@@ -13,7 +13,7 @@ services:
       - TZ=America/Cuiaba
     volumes:
       - volume_sistemas_v4:/sv-scalco/Sistemas
-      - volume_protocolo_v4:"/sv-scalco/Trabalho/Contabilidade/P r o t o c o l o"
+      - volume_protocolo_v4:/sv-scalco/Protocolo
       - volume_cnpj_v4:/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ
 
 volumes:
