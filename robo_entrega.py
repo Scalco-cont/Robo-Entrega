@@ -21,8 +21,8 @@ PASTA_DESTINO = Path("/sv-scalco/Trabalho/TemporarioAutomatico")
 PASTA_ENVIADOS = Path("/sv-scalco/Trabalho/TemporarioAutomatico/Enviados")
 PASTA_ERRO_ENVIO = Path("/sv-scalco/Trabalho/TemporarioAutomatico")
 PASTA_REJEITADOS = Path("/sv-scalco/Trabalho/ArquivosAutomaticos")
-PASTA_ICMS = Path("/sv-scalco/Trabalho/Contabilidade/P r o t o c o l o")  # Nova pasta para ICMS
-LOG_DIR = Path("./logs")
+PASTA_ICMS = Path("/sv-scalco/Trabalho/Contabilidade/P r o t o c o l o")
+LOG_DIR = Path("/sv-scalco/Sistemas/logs_robo_tareffa")
 LOG_DIR.mkdir(exist_ok=True)
 
 # --- PADRÕES ---
@@ -342,7 +342,6 @@ def main():
                 time.sleep(5)
                 last_refresh_time = datetime.now()
 
-            os.system("cls" if os.name == "nt" else "clear")
             print(f"\n========== CICLO #{ciclo} (Início: {datetime.now().strftime('%H:%M:%S')}) ==========")
             
             renomear_recibo()
