@@ -354,10 +354,8 @@ def main():
             walle_log(f"Ciclo #{ciclo} concluído.", "SUCCESS")
             ciclo += 1
             
-            for i in range(50, 0, -1):
-                print(f"\r🤖 Próxima varredura em {i}s...  ", end="", flush=True)
-                time.sleep(1)
-            print("\n")
+            walle_log("Aguardando 50s para a próxima varredura...", "INFO")
+            time.sleep(50)
             
         except KeyboardInterrupt:
             walle_log("Sistema interrompido pelo usuário.")
