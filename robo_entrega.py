@@ -178,6 +178,20 @@ def renomear_recibo():
                 walle_log(f"Erro ao processar o arquivo {caminho.name}: {e}", "ERROR")
                 log_to_file("ERRO", f"Falha ao renomear {caminho.name}: {e}")
 
+def mover_arquivo(origem, destino):
+    '''Move um arquivo entre dois mounts de rede de forma segura.
+    Copia primeiro e só deleta a origem após confirmar que a cópia foi feita.
+    Se a deleção falhar, apenas avisa (não quebra o ciclo).
+    '''
+    try:
+        shutil.copy2(str(origem), destino)
+    except Exception as e:
+        raise e  # Se a cópia falhar, relanca o erro
+    try:
+        os.remove(str(origem))
+    except Exception as e:
+        walle_log(f"Aviso: arquivo copiado mas não foi possível deletar o original '{origem.name}': {e}", "WARN")
+
 def buscar_arquivos():
     '''Busca arquivos na origem, separa válidos de rejeitados e move-os.'''
     global total_validos, total_rejeitados, total_icms
@@ -199,16 +213,16 @@ def buscar_arquivos():
             
             # Verifica primeiro se é ICMS (prioridade)
             if any(p in nome_lower for p in PADROES_ICMS):
-                shutil.move(str(arq), PASTA_ICMS / arq.name)
+                mover_arquivo(arq, PASTA_ICMS / arq.name)
                 icms.append(arq.name)
                 log_to_file("ICMS", f"Arquivo ICMS movido para protocolo: {arq.name}")
             # Verifica se é válido para envio
             elif any(p in nome_lower for p in PADROES):
-                shutil.move(str(arq), PASTA_DESTINO / arq.name)
+                mover_arquivo(arq, PASTA_DESTINO / arq.name)
                 arquivos_validos.append(PASTA_DESTINO / arq.name)
             # Senão, é rejeitado
             else:
-                shutil.move(str(arq), PASTA_REJEITADOS / arq.name)
+                mover_arquivo(arq, PASTA_REJEITADOS / arq.name)
                 rejeitados.append(arq.name)
                 log_to_file("REJEITADO", f"Arquivo movido para rejeitados: {arq.name}")
 
