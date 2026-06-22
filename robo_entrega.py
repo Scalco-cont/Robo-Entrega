@@ -24,6 +24,7 @@ PASTA_REJEITADOS = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certifi
 PASTA_ICMS = Path("/sv-scalco/Protocolo")
 LOG_DIR = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/logs")
 LOG_DIR.mkdir(exist_ok=True)
+ARQUIVOS_PROCESSADOS_FILE = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/arquivos_processados.txt")
 
 # --- PADRÕES ---
 PADROES = [
@@ -68,6 +69,20 @@ def log_to_file(tipo, mensagem):
             f.write(f"[{timestamp}] [{tipo.upper()}] {mensagem}\n")
     except Exception as e:
         walle_log(f"Falha crítica ao escrever no arquivo de log {log_file}: {e}", "ERROR")
+
+# --- CONTROLE DE ARQUIVOS JA PROCESSADOS ---
+
+def carregar_processados():
+    '''Carrega o conjunto de nomes de arquivos já processados do disco.'''
+    if ARQUIVOS_PROCESSADOS_FILE.exists():
+        with open(ARQUIVOS_PROCESSADOS_FILE, "r", encoding="utf-8") as f:
+            return set(line.strip() for line in f if line.strip())
+    return set()
+
+def registrar_processado(nome_arquivo):
+    '''Adiciona um nome de arquivo na lista persistente de já processados.'''
+    with open(ARQUIVOS_PROCESSADOS_FILE, "a", encoding="utf-8") as f:
+        f.write(nome_arquivo + "\n")
 
 # --- FUNÇÕES PRINCIPAIS DO ROBÔ ---
 
@@ -207,23 +222,32 @@ def buscar_arquivos():
         log_to_file("ERRO", msg)
         return []
     
+    arquivos_ja_processados = carregar_processados()
+
     for arq in PASTA_ORIGEM.iterdir():
         if arq.is_file() and arq.suffix.lower() in [".pdf", ".xml"]:
+            # Pula arquivos que já foram processados em ciclos anteriores
+            if arq.name in arquivos_ja_processados:
+                continue
+
             nome_lower = arq.name.lower()
             
             # Verifica primeiro se é ICMS (prioridade)
             if any(p in nome_lower for p in PADROES_ICMS):
                 mover_arquivo(arq, PASTA_ICMS / arq.name)
                 icms.append(arq.name)
+                registrar_processado(arq.name)
                 log_to_file("ICMS", f"Arquivo ICMS movido para protocolo: {arq.name}")
             # Verifica se é válido para envio
             elif any(p in nome_lower for p in PADROES):
                 mover_arquivo(arq, PASTA_DESTINO / arq.name)
                 arquivos_validos.append(PASTA_DESTINO / arq.name)
+                registrar_processado(arq.name)
             # Senão, é rejeitado
             else:
                 mover_arquivo(arq, PASTA_REJEITADOS / arq.name)
                 rejeitados.append(arq.name)
+                registrar_processado(arq.name)
                 log_to_file("REJEITADO", f"Arquivo movido para rejeitados: {arq.name}")
 
     num_validos_ciclo = len(arquivos_validos)
