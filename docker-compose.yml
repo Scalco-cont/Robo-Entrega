@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  robo:
+    build: .
+    container_name: robo_tareffa
+    restart: unless-stopped
+    environment:
+      # Preencha suas credenciais do Tareffa diretamente no painel do Coolify 
+      # na aba Environment Variables (estas aqui são apenas de exemplo)
+      - TAREFFA_USER=miguel@scalcomt.com.br
+      - TAREFFA_PASS=Scalco123
+      - TZ=America/Cuiaba
+    volumes:
+      # Mapeamento idêntico ao que o sistema original já está esperando no Linux:
+      - /sv-scalco/Sistemas:/sv-scalco/Sistemas
+      - /sv-scalco/Trabalho:/sv-scalco/Trabalho
