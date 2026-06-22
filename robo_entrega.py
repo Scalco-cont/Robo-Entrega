@@ -17,10 +17,10 @@ from dotenv import load_dotenv
 load_dotenv() # Carrega variáveis de ambiente se existir arquivo .env localmente
 # --- CONFIGURAÇÕES DE DIRETÓRIOS ---
 PASTA_ORIGEM = Path("/sv-scalco/Sistemas/GED/PastaMonitorada")
-PASTA_DESTINO = Path("/sv-scalco/Trabalho/TemporarioAutomatico")
-PASTA_ENVIADOS = Path("/sv-scalco/Trabalho/TemporarioAutomatico/Enviados")
-PASTA_ERRO_ENVIO = Path("/sv-scalco/Trabalho/TemporarioAutomatico")
-PASTA_REJEITADOS = Path("/sv-scalco/Trabalho/ArquivosAutomaticos")
+PASTA_DESTINO = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/TemporarioAutomatico")
+PASTA_ENVIADOS = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/TemporarioAutomatico/Enviados")
+PASTA_ERRO_ENVIO = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/TemporarioAutomatico")
+PASTA_REJEITADOS = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/ArquivosAutomaticos")
 PASTA_ICMS = Path("/sv-scalco/Trabalho/Contabilidade/P r o t o c o l o")
 LOG_DIR = Path("/sv-scalco/Sistemas/logs_robo_tareffa")
 LOG_DIR.mkdir(exist_ok=True)
