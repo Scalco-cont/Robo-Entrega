@@ -23,7 +23,7 @@ PASTA_ERRO_ENVIO = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certifi
 PASTA_REJEITADOS = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/ArquivosAutomaticos")
 PASTA_ICMS = Path("/sv-scalco/Trabalho/Contabilidade/P r o t o c o l o")
 LOG_DIR = Path("/sv-scalco/Trabalho/Contabilidade/Miguel/Miguel_Certificados/1/CNPJ/logs")
-# LOG_DIR.mkdir(exist_ok=True) # Desativado para evitar o erro de permissao do Linux na rede
+LOG_DIR.mkdir(exist_ok=True)
 
 # --- PADRÕES ---
 PADROES = [
@@ -182,11 +182,10 @@ def buscar_arquivos():
     '''Busca arquivos na origem, separa válidos de rejeitados e move-os.'''
     global total_validos, total_rejeitados, total_icms
     arquivos_validos, rejeitados, icms = [], [], []
-    # As pastas abaixo devem ser criadas manualmente no Windows para evitar bloqueio do Linux
-    # PASTA_DESTINO.mkdir(exist_ok=True)
-    # PASTA_REJEITADOS.mkdir(exist_ok=True)
-    # PASTA_ERRO_ENVIO.mkdir(exist_ok=True)
-    # PASTA_ICMS.mkdir(parents=True, exist_ok=True)
+    PASTA_DESTINO.mkdir(exist_ok=True)
+    PASTA_REJEITADOS.mkdir(exist_ok=True)
+    PASTA_ERRO_ENVIO.mkdir(exist_ok=True)
+    PASTA_ICMS.mkdir(parents=True, exist_ok=True)
 
     if not PASTA_ORIGEM.exists():
         msg = f"Pasta de origem não encontrada: {PASTA_ORIGEM}"
@@ -298,7 +297,7 @@ def enviar_arquivos(driver, arquivos_para_enviar):
 def mover_arquivos_pos_envio(nomes_arquivos, sucesso):
     pasta_alvo = PASTA_ENVIADOS if sucesso else PASTA_ERRO_ENVIO
     log_tipo = "ENVIADO" if sucesso else "ERRO_MOVIMENTACAO"
-    # pasta_alvo.mkdir(exist_ok=True)
+    pasta_alvo.mkdir(exist_ok=True)
 
     for nome_arquivo in nomes_arquivos:
         arquivo_origem = PASTA_DESTINO / nome_arquivo
