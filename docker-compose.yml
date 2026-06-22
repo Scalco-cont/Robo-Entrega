@@ -19,11 +19,11 @@ volumes:
   volume_sistemas:
     driver_opts:
       type: cifs
-      o: "username=micro11,password=micro14,vers=2.0,dir_mode=0777,file_mode=0777"
+      o: "username=micro11,password=micro14,vers=2.0,dir_mode=0777,file_mode=0777,uid=0,gid=0,noperm"
       device: "//192.168.1.195/Sistemas"
 
   volume_trabalho:
     driver_opts:
       type: cifs
-      o: "username=micro11,password=micro14,vers=2.0,dir_mode=0777,file_mode=0777"
+      o: "username=micro11,password=micro14,vers=2.0,dir_mode=0777,file_mode=0777,uid=0,gid=0,noperm"
       device: "//192.168.1.195/Trabalho"
